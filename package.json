@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "peppita-core",
   "version": "0.0.1",
   "description": "Peppita-Core allows to create scriptable flows",
   "main": "index.js",
