@@ -26,6 +26,12 @@ describe('Init project structure', () => {
     applyMiddleware.mockClear();
   });
 
+  const middlewares = [
+    test1 => test1,
+    test2 => test2,
+  ];
+  const addedReducer = state => state;
+
   it('Inits with redux store', () => {
     expect(init()).toBe(storeMock);
     expect(createStore).toHaveBeenCalledTimes(1);
@@ -34,7 +40,6 @@ describe('Init project structure', () => {
   });
 
   it('Takes reducers as argument and adds them to the store', () => {
-    const addedReducer = state => state;
     const combineCall = {
       peppita: projectReducer,
       added: addedReducer,
@@ -47,17 +52,27 @@ describe('Init project structure', () => {
   });
 
   it('Takes additional middelware and applies it to the store', () => {
-    const middlewares = [
-      test1 => test1,
-      test2 => test2,
-    ];
-
     expect(init({
       middlewares,
     })).toBe(storeMock);
     expect(createStore).toHaveBeenCalledTimes(1);
     expect(applyMiddleware).toHaveBeenCalledTimes(1);
     expect(createStore.mock.calls[0][0]).toBe(projectReducer);
+    expect(createStore.mock.calls[0][1]).toBe(middelwareReturnMock);
+    expect(applyMiddleware.mock.calls[0]).toEqual(expect.arrayContaining(middlewares));
+  });
+
+  it('Takes additional middleware and reducers and returns store', () => {
+    expect(init({
+      reducers: { addedReducer },
+      middlewares,
+    })).toBe(storeMock);
+    expect(createStore).toHaveBeenCalledTimes(1);
+    expect(applyMiddleware).toHaveBeenCalledTimes(1);
+    expect(createStore.mock.calls[0][0]).toMatchObject({
+      addedReducer,
+      peppita: projectReducer,
+    });
     expect(createStore.mock.calls[0][1]).toBe(middelwareReturnMock);
     expect(applyMiddleware.mock.calls[0]).toEqual(expect.arrayContaining(middlewares));
   });
