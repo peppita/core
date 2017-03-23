@@ -1,5 +1,3 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-
 import projectReducer from './reducers/projectReducer';
 
 export const projectReducers = {
