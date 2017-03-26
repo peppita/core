@@ -22,8 +22,11 @@ function getMainConfig() {
 }
 
 function mainReducer(state = getMainConfig(), action) {
-  if (action.type === 'love') {
-    return state;
+  if (action.type === 'editProject') {
+    return state.set('projectBeingEdited', Immutable.fromJS({
+      name: undefined,
+      type: undefined,
+    }));
   }
   return state;
 }

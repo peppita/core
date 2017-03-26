@@ -1,5 +1,5 @@
-export function createProject() {
+export default function editProject() {
   return {
-    type: 'createAction',
+    type: 'editProject',
   };
 }

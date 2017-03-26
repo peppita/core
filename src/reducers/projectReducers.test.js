@@ -1,5 +1,5 @@
 import projectReducer, { defaultConfig } from './projectReducer';
-import { createProject } from  '../actions/projectActions';
+import editProject from '../actions/projectActions';
 
 
 describe('main project reducer actions', () => {
@@ -20,6 +20,13 @@ describe('main project reducer actions', () => {
   });
 
   it('create project inits projectEdited item', () => {
-    reducer(initialState, createProject());
+    const projectBeingEdited = reducer(initialState, editProject())
+      .get('projectBeingEdited')
+      .toJS();
+    expect(projectBeingEdited).toMatchObject({
+      name: undefined,
+      type: undefined,
+    });
+    reducer(initialState, editProject());
   });
 });
